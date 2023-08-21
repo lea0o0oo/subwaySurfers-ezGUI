@@ -19,6 +19,15 @@ const Toast = Swal.mixin({
   },
 });
 
+let prettyJSON = localStorage.getItem("prettyJSON")
+  ? localStorage.getItem("prettyJSON")
+  : false;
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("prettyChBox").checked = prettyJSON;
+});
+
+let currentDecryptedJSON = null;
+
 function decrypt() {
   const data = document.getElementById("encryptedDataText").value;
 
@@ -27,11 +36,14 @@ function decrypt() {
     document.getElementById("decryptedData-Text").value =
       converter.decryptValue(veryData.data);
     jsonWrap = veryData;
+    currentDecryptedJSON = converter.decryptValue(veryData.data);
   } catch (e) {
     document.getElementById("decryptedData-Text").value =
       converter.decryptValue(data);
     jsonWrap.data = converter.decryptValue(data);
+    currentDecryptedJSON = converter.decryptValue(data);
   }
+  togglePrettify(true);
 }
 
 function savei() {
@@ -51,6 +63,25 @@ function savei() {
       icon: "error",
       title: "Error while encrypting",
     });
+  }
+}
+
+function togglePrettify(nochange) {
+  if (document.getElementById("prettyChBox").checked) {
+    if (!nochange) localStorage.setItem("prettyJSON", "yes");
+    if (currentDecryptedJSON) {
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        JSON.parse(currentDecryptedJSON),
+        null,
+        2
+      );
+    }
+  } else {
+    if (!nochange) localStorage.removeItem("prettyJSON");
+    if (currentDecryptedJSON) {
+      document.getElementById("decryptedData-Text").value =
+        currentDecryptedJSON;
+    }
   }
 }
 </script>
@@ -90,15 +121,25 @@ function savei() {
       Decrypt
     </button>
   </div>
+
+  <!-- DIVIDER -->
+
   <div class="divider"></div>
-  <div
-    style="
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-    "
-  >
+  <div style="width: 120px; margin-top: 30px; margin-left: 2.5%">
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <input
+          type="checkbox"
+          checked="checked"
+          class="checkbox checkbox-primary"
+          id="prettyChBox"
+          @change="togglePrettify()"
+        />
+        <span class="label-text">Pretty JSON</span>
+      </label>
+    </div>
+  </div>
+  <div style="width: 100%; display: flex; justify-content: center">
     <textarea
       placeholder="Decrypted data"
       class="textarea textarea-bordered textarea-lg"
