@@ -1,10 +1,23 @@
 <script setup>
 import converter from "../helpers/converter";
+import Swal from "sweetalert2";
 
 let jsonWrap = {
   version: 3,
   data: "",
 };
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 function decrypt() {
   const data = document.getElementById("encryptedDataText").value;
@@ -24,9 +37,21 @@ function decrypt() {
 function savei() {
   const data = document.getElementById("decryptedData-Text").value;
 
-  let jsonWrapCopy = { ...jsonWrap };
-  jsonWrapCopy.data = converter.encryptValue(data);
-  navigator.clipboard.writeText(JSON.stringify(jsonWrapCopy));
+  try {
+    let jsonWrapCopy = { ...jsonWrap };
+    jsonWrapCopy.data = converter.encryptValue(data);
+    navigator.clipboard.writeText(JSON.stringify(jsonWrapCopy));
+
+    Toast.fire({
+      icon: "success",
+      title: "Data saved",
+    });
+  } catch (e) {
+    Toast.fire({
+      icon: "error",
+      title: "Error while encrypting",
+    });
+  }
 }
 </script>
 
