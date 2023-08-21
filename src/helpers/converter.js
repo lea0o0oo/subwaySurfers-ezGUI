@@ -17,7 +17,7 @@ function decryptValue(text) {
     decrypted = decrypted.toString(CryptoJS.enc.Utf8);
     return decrypted;
   } catch (ex) {
-    console.error("\x1b[31m", ex.message, "\x1b[0m");
+    console.error(ex.message);
   }
 }
 
@@ -38,7 +38,7 @@ function encryptValue(json) {
     encrypted = encrypted.toString();
     return encrypted;
   } catch (ex) {
-    console.error("\x1b[31m", ex.message, "\x1b[0m");
+    console.error(ex.message);
   }
 }
 

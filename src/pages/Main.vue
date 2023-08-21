@@ -1,17 +1,100 @@
 <script setup>
 import converter from "../helpers/converter";
 
-converter.decryptValue(
-  "IegY21/091yYehMIQUAncLb0+eNp0bWOmVTEuDTpYivflHk2jXbfoY8k59HxVoDT770+nkmdYfYvDeJkW1rJ9LBF9FlwvYWjcR6s1LUELVnkpYO97Zee9B4ZJhviMF0xtB0KDZ7JYtUTj4gIezSDe1lmEJATMP0j6foSL92r319Fr16AC9yYLQK5TrBColPXiG1jkDzAO7XXYteUJq0Q+S6BUVAuPxZaPSapYZbO1fB2z32NNYrkqsZ4fz02SAV91qIcAci37koNfnurcpogwgyGHlB5vHsuxMyOlJuMJuISylt2jCNax8jbwTLdFfDG5wOtT4/GCO5STDkfs4A2BQInVIZWWEgTZR8opFPArEM="
-);
+let jsonWrap = {
+  version: 3,
+  data: "",
+};
+
+function decrypt() {
+  const data = document.getElementById("encryptedDataText").value;
+
+  try {
+    const veryData = JSON.parse(data);
+    document.getElementById("decryptedData-Text").value =
+      converter.decryptValue(veryData.data);
+    jsonWrap = veryData;
+  } catch (e) {
+    document.getElementById("decryptedData-Text").value =
+      converter.decryptValue(data);
+    jsonWrap.data = converter.decryptValue(data);
+  }
+}
+
+function savei() {
+  const data = document.getElementById("decryptedData-Text").value;
+
+  let jsonWrapCopy = { ...jsonWrap };
+  jsonWrapCopy.data = converter.encryptValue(data);
+  navigator.clipboard.writeText(JSON.stringify(jsonWrapCopy));
+}
 </script>
 
 <template>
   <h1 class="w-full text-center font-bold text-4xl mt-10">
     Subway surfers JSON editor
   </h1>
-  <textarea
-    placeholder="Encrypted data"
-    class="textarea textarea-bordered textarea-lg w-full"
-  ></textarea>
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    "
+  >
+    <textarea
+      placeholder="Encrypted data"
+      class="textarea textarea-bordered textarea-lg"
+      style="width: 95%; height: 300px"
+      id="encryptedDataText"
+    ></textarea>
+  </div>
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    "
+  >
+    <button
+      class="btn btn-primary"
+      style="width: 95%"
+      @click="decrypt()"
+    >
+      Decrypt
+    </button>
+  </div>
+  <div class="divider"></div>
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    "
+  >
+    <textarea
+      placeholder="Decrypted data"
+      class="textarea textarea-bordered textarea-lg"
+      style="width: 95%; height: 300px"
+      id="decryptedData-Text"
+    ></textarea>
+  </div>
+  <div
+    style="
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    "
+  >
+    <button
+      class="btn btn-secondary"
+      style="width: 95%"
+      @click="savei()"
+    >
+      Re-Encrypt and copy
+    </button>
+  </div>
 </template>
