@@ -73,7 +73,7 @@ function togglePrettify(nochange) {
       document.getElementById("decryptedData-Text").value = JSON.stringify(
         JSON.parse(document.getElementById("decryptedData-Text").value),
         null,
-        2
+        4
       );
     }
   } else {
