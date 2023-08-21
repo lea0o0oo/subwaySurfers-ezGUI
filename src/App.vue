@@ -24,6 +24,7 @@
         <a
           href="https://github.com/Farfa7886/subwaySurfers-ezGUI"
           target="_blank"
+          aria-label="Github REPO"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -39,6 +40,7 @@
         <a
           href="https://discord.gg/nghc84wjSZ"
           target="_blank"
+          aria-label="Discord server"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
