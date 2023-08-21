@@ -47,7 +47,7 @@ function decrypt() {
 }
 
 function savei() {
-  const data = document.getElementById("decryptedData-Text").value;
+  const data = JSON.parse(document.getElementById("decryptedData-Text").value);
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
