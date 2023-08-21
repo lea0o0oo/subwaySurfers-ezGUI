@@ -3,18 +3,26 @@
   <footer class="footer p-10 bg-neutral text-neutral-content mt-10">
     <div>
       <p>
+        Project leader
+        <a
+          class="link link-info"
+          href="https://github.com/Noobgamer0111"
+          target="_blank"
+          >Noobgamer0111</a
+        ><br />
+        Encryption key found by
+        <a
+          class="link link-info"
+          href="https://github.com/moddedmcplayer"
+          target="_blank"
+          >moddedmcplayer</a
+        ><br />
         Site made by
         <a
           class="link link-info"
           href="https://github.com/Farfa7886/"
           target="_blank"
           >Farfa7886</a
-        ><br />Encryption key found by
-        <a
-          class="link link-info"
-          href="https://github.com/moddedmcplayer"
-          target="_blank"
-          >moddedmcplayer</a
         >
       </p>
     </div>
