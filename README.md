@@ -10,3 +10,7 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 - A **MASSIVE** thanks to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key, I simply added a web version to it.
 - Component library: DaisyUI
+
+## Note
+
+The UI for now is not one of the best, so If someone has some ideas it is possible to join the discord server: https://discord.gg/nghc84wjSZ
