@@ -71,7 +71,7 @@ function togglePrettify(nochange) {
     if (!nochange) localStorage.setItem("prettyJSON", "yes");
     if (currentDecryptedJSON) {
       document.getElementById("decryptedData-Text").value = JSON.stringify(
-        JSON.parse(currentDecryptedJSON),
+        JSON.parse(document.getElementById("decryptedData-Text").value),
         null,
         2
       );
@@ -79,8 +79,9 @@ function togglePrettify(nochange) {
   } else {
     if (!nochange) localStorage.removeItem("prettyJSON");
     if (currentDecryptedJSON) {
-      document.getElementById("decryptedData-Text").value =
-        currentDecryptedJSON;
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        JSON.parse(document.getElementById("decryptedData-Text").value)
+      );
     }
   }
 }
