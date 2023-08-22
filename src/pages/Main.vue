@@ -56,7 +56,7 @@ function savei() {
 
     Toast.fire({
       icon: "success",
-      title: "Data saved",
+      title: "Data copied",
     });
   } catch (e) {
     Toast.fire({
