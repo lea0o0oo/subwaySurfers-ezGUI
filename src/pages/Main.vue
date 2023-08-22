@@ -2,10 +2,18 @@
 import converter from "../helpers/converter";
 import Swal from "sweetalert2";
 import { JSONEditor } from "vanilla-jsoneditor";
+import "vanilla-jsoneditor/themes/jse-theme-dark.css";
 
 let editor;
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.getElementById("betterJSONEditor").classList.add("jse-theme-dark");
+  }
+
   let content = {
     text: undefined,
     json: {
@@ -81,7 +89,8 @@ function decrypt() {
 }
 
 function savei() {
-  const data = JSON.parse(document.getElementById("decryptedData-Text").value);
+  // const data = JSON.parse(document.getElementById("decryptedData-Text").value);
+  const data = editor.get().json;
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
