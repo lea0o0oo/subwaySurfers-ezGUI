@@ -85,6 +85,25 @@ function togglePrettify(nochange) {
     }
   }
 }
+
+function handleFileInput() {
+  const file = document.getElementById("jsonFileInput").files[0];
+
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    var contents = event.target.result;
+    var json = JSON.parse(contents); // parse the JSON string into a JavaScript object
+    document.getElementById("encryptedDataText").value = JSON.stringify(json);
+    // console.log(json); // print the object
+  };
+
+  reader.onerror = function (event) {
+    console.error("File could not be read! Code " + event.target.error.code);
+  };
+
+  reader.readAsText(file); // read the file as a text string
+}
 </script>
 
 <template>
@@ -93,17 +112,18 @@ function togglePrettify(nochange) {
   </h1>
   <div class="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2">
     <div>
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          margin-top: 30px;
-        "
-      >
+      <input
+        type="file"
+        class="file-input file-input-sm file-input-bordered file-input-primary w-full"
+        style="margin-top: 30px; margin-left: 2.5%; width: 95%"
+        accept=".json"
+        id="jsonFileInput"
+        @input="handleFileInput()"
+      />
+      <div style="width: 100%; display: flex; justify-content: center">
         <textarea
           placeholder="Encrypted data"
-          class="textarea textarea-bordered textarea-lg lg:mt-10 textAreaE"
+          class="textarea textarea-bordered textarea-lg mt-2 textAreaE textarea-primary"
           style="width: 95%"
           id="encryptedDataText"
         ></textarea>
@@ -131,13 +151,20 @@ function togglePrettify(nochange) {
 
     <!-- END DIVIDER -->
     <div>
-      <div style="width: 120px; margin-top: 30px; margin-left: 2.5%">
+      <div
+        style="
+          width: 120px;
+          margin-top: 23px;
+          margin-bottom: 7px;
+          margin-left: 2.5%;
+        "
+      >
         <div class="form-control">
           <label class="label cursor-pointer">
             <input
               type="checkbox"
               checked="checked"
-              class="checkbox checkbox-primary"
+              class="checkbox checkbox-secondary"
               id="prettyChBox"
               @change="togglePrettify()"
             />
@@ -148,7 +175,7 @@ function togglePrettify(nochange) {
       <div style="width: 100%; display: flex; justify-content: center">
         <textarea
           placeholder="Decrypted data"
-          class="textarea textarea-bordered textarea-lg textAreaE"
+          class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary"
           style="width: 95%"
           id="decryptedData-Text"
         ></textarea>
