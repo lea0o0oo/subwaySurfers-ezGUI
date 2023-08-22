@@ -95,6 +95,7 @@ function handleFileInput() {
     var contents = event.target.result;
     var json = JSON.parse(contents); // parse the JSON string into a JavaScript object
     document.getElementById("encryptedDataText").value = JSON.stringify(json);
+    decrypt();
     // console.log(json); // print the object
   };
 
