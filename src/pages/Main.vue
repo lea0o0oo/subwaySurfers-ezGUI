@@ -1,6 +1,49 @@
 <script setup>
 import converter from "../helpers/converter";
 import Swal from "sweetalert2";
+import { JSONEditor } from "vanilla-jsoneditor";
+import "vanilla-jsoneditor/themes/jse-theme-dark.css";
+
+let editor;
+
+let editorType =
+  localStorage.getItem("editorType") == "basic" ? "basic" : "advanced";
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.getElementById("betterJSONEditor").classList.add("jse-theme-dark");
+  }
+
+  let content = {
+    text: undefined,
+    json: {},
+  };
+
+  editor = new JSONEditor({
+    target: document.getElementById("betterJSONEditor"),
+    props: {
+      content,
+      onChange: (
+        updatedContent,
+        previousContent,
+        { contentErrors, patchResult }
+      ) => {
+        // content is an object { json: JSONData } | { text: string }
+        console.log("onChange", {
+          updatedContent,
+          previousContent,
+          contentErrors,
+          patchResult,
+        });
+        content = updatedContent;
+      },
+    },
+  });
+  applyEditorType();
+});
 
 let jsonWrap = {
   version: 3,
@@ -37,6 +80,7 @@ function decrypt() {
       converter.decryptValue(veryData.data);
     jsonWrap = veryData;
     currentDecryptedJSON = converter.decryptValue(veryData.data);
+    editor.set({ json: JSON.parse(converter.decryptValue(veryData.data)) });
   } catch (e) {
     document.getElementById("decryptedData-Text").value =
       converter.decryptValue(data);
@@ -47,7 +91,13 @@ function decrypt() {
 }
 
 function savei() {
-  const data = JSON.parse(document.getElementById("decryptedData-Text").value);
+  let data;
+
+  if (editorType == "basic") {
+    data = JSON.parse(document.getElementById("decryptedData-Text").value);
+  } else {
+    data = editor.get().json;
+  }
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
@@ -105,6 +155,45 @@ function handleFileInput() {
 
   reader.readAsText(file); // read the file as a text string
 }
+
+function applyEditorType() {
+  if (editorType == "advanced") {
+    document.getElementById("prettyChBoxContainer").style.display = "none";
+    document.getElementById("decryptedData-Text").style.display = "none";
+    document.getElementById("betterJSONEditor").style.display = "block";
+    document.getElementById("typeSelecotr").value = "adv";
+    editor.set({
+      json: JSON.parse(document.getElementById("decryptedData-Text").value),
+    });
+  } else {
+    document.getElementById("typeSelecotr").value = "basic";
+    document.getElementById("prettyChBoxContainer").style.display = "block";
+    document.getElementById("decryptedData-Text").style.display = "block";
+    document.getElementById("betterJSONEditor").style.display = "none";
+    if (document.getElementById("prettyChBox").checked) {
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        editor.get().json,
+        null,
+        4
+      );
+    } else {
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        editor.get().json
+      );
+    }
+  }
+}
+
+function switchEditorType() {
+  if (editorType == "basic") {
+    editorType = "advanced";
+    localStorage.setItem("editorType", "advanced");
+  } else {
+    editorType = "basic";
+    localStorage.setItem("editorType", "basic");
+  }
+  applyEditorType();
+}
 </script>
 
 <template>
@@ -158,27 +247,53 @@ function handleFileInput() {
           margin-top: 23px;
           margin-bottom: 7px;
           margin-left: 2.5%;
+          display: flex;
         "
       >
-        <div class="form-control">
+        <div
+          class="form-control"
+          id="prettyChBoxContainer"
+        >
           <label class="label cursor-pointer">
             <input
               type="checkbox"
               checked="checked"
               class="checkbox checkbox-secondary"
+              style="margin-right: 10px"
               id="prettyChBox"
               @change="togglePrettify()"
             />
-            <span class="label-text">Pretty JSON</span>
+            <span
+              class="label-text"
+              style="width: 100px"
+              >Pretty JSON</span
+            >
           </label>
         </div>
+        <select
+          class="select select-secondary select-sm"
+          style="width: 500px; margin-bottom: 10px"
+          id="typeSelecotr"
+          @change="switchEditorType()"
+        >
+          <option disabled>Editor type</option>
+          <option value="adv">Advanced</option>
+          <option value="basic">Basic</option>
+        </select>
       </div>
+
       <div style="width: 100%; display: flex; justify-content: center">
+        <div
+          id="betterJSONEditor"
+          class="w-full"
+          style="width: 95%; height: 58vh"
+        ></div>
         <textarea
           placeholder="Decrypted data"
-          class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary"
+          class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary hidden"
           style="width: 95%"
           id="decryptedData-Text"
+          value="{}"
         ></textarea>
       </div>
       <div
