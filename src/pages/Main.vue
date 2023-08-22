@@ -166,20 +166,25 @@ function applyEditorType() {
       json: JSON.parse(document.getElementById("decryptedData-Text").value),
     });
   } else {
+    let finalDataApply;
+    if (editor.get().json) {
+      finalDataApply = editor.get().json;
+    } else {
+      finalDataApply = JSON.parse(editor.get().text);
+    }
     document.getElementById("typeSelecotr").value = "basic";
     document.getElementById("prettyChBoxContainer").style.display = "block";
     document.getElementById("decryptedData-Text").style.display = "block";
     document.getElementById("betterJSONEditor").style.display = "none";
     if (document.getElementById("prettyChBox").checked) {
       document.getElementById("decryptedData-Text").value = JSON.stringify(
-        editor.get().json,
+        finalDataApply,
         null,
         4
       );
     } else {
-      document.getElementById("decryptedData-Text").value = JSON.stringify(
-        editor.get().json
-      );
+      document.getElementById("decryptedData-Text").value =
+        JSON.stringify(finalDataApply);
     }
   }
 }
