@@ -16,9 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let content = {
     text: undefined,
-    json: {
-      greeting: "Hello World",
-    },
+    json: {},
   };
 
   editor = new JSONEditor({
