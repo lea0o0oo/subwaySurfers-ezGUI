@@ -41,6 +41,13 @@ export default {
           href="https://github.com/Farfa7886/"
           target="_blank"
           >Farfa7886</a
+        ><br />
+        <a
+          id="freeDNSLink"
+          href="https://freedns.afraid.org"
+          target="_blank"
+          class="link link-secondary"
+          >Free DNS</a
         >
       </p>
     </div>
