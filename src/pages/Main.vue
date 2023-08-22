@@ -10,7 +10,6 @@ let editorType =
   localStorage.getItem("editorType") == "basic" ? "basic" : "advanced";
 
 document.addEventListener("DOMContentLoaded", () => {
-  applyEditorType();
   if (
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -43,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     },
   });
+  applyEditorType();
 });
 
 let jsonWrap = {
@@ -162,11 +162,25 @@ function applyEditorType() {
     document.getElementById("decryptedData-Text").style.display = "none";
     document.getElementById("betterJSONEditor").style.display = "block";
     document.getElementById("typeSelecotr").value = "adv";
+    editor.set({
+      json: JSON.parse(document.getElementById("decryptedData-Text").value),
+    });
   } else {
     document.getElementById("typeSelecotr").value = "basic";
     document.getElementById("prettyChBoxContainer").style.display = "block";
     document.getElementById("decryptedData-Text").style.display = "block";
     document.getElementById("betterJSONEditor").style.display = "none";
+    if (document.getElementById("prettyChBox").checked) {
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        editor.get().json,
+        null,
+        4
+      );
+    } else {
+      document.getElementById("decryptedData-Text").value = JSON.stringify(
+        editor.get().json
+      );
+    }
   }
 }
 
@@ -279,6 +293,7 @@ function switchEditorType() {
           class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary hidden"
           style="width: 95%"
           id="decryptedData-Text"
+          value="{}"
         ></textarea>
       </div>
       <div
