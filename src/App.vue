@@ -46,7 +46,7 @@ export default {
             ><br />
           </p>
         </div>
-        <div class="lg:ml-10">
+        <!-- <div class="lg:ml-10">
           <a
             id="freeDNSLink"
             href="https://freedns.afraid.org"
@@ -54,7 +54,7 @@ export default {
             class="link link-secondary"
             >Free DNS</a
           >
-        </div>
+        </div> -->
       </div>
     </div>
     <div>
