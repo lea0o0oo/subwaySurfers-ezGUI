@@ -3,6 +3,8 @@ import converter from "../helpers/converter";
 import Swal from "sweetalert2";
 import { JSONEditor } from "vanilla-jsoneditor";
 
+let editor;
+
 document.addEventListener("DOMContentLoaded", () => {
   let content = {
     text: undefined,
@@ -11,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
-  const editor = new JSONEditor({
+  editor = new JSONEditor({
     target: document.getElementById("betterJSONEditor"),
     props: {
       content,
@@ -68,6 +70,7 @@ function decrypt() {
       converter.decryptValue(veryData.data);
     jsonWrap = veryData;
     currentDecryptedJSON = converter.decryptValue(veryData.data);
+    editor.set({ json: JSON.parse(converter.decryptValue(veryData.data)) });
   } catch (e) {
     document.getElementById("decryptedData-Text").value =
       converter.decryptValue(data);
