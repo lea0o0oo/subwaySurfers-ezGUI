@@ -166,20 +166,25 @@ function applyEditorType() {
       json: JSON.parse(document.getElementById("decryptedData-Text").value),
     });
   } else {
+    let finalDataApply;
+    if (editor.get().json) {
+      finalDataApply = editor.get().json;
+    } else {
+      finalDataApply = JSON.parse(editor.get().text);
+    }
     document.getElementById("typeSelecotr").value = "basic";
     document.getElementById("prettyChBoxContainer").style.display = "block";
     document.getElementById("decryptedData-Text").style.display = "block";
     document.getElementById("betterJSONEditor").style.display = "none";
     if (document.getElementById("prettyChBox").checked) {
       document.getElementById("decryptedData-Text").value = JSON.stringify(
-        editor.get().json,
+        finalDataApply,
         null,
         4
       );
     } else {
-      document.getElementById("decryptedData-Text").value = JSON.stringify(
-        editor.get().json
-      );
+      document.getElementById("decryptedData-Text").value =
+        JSON.stringify(finalDataApply);
     }
   }
 }
@@ -285,8 +290,8 @@ function switchEditorType() {
       <div style="width: 100%; display: flex; justify-content: center">
         <div
           id="betterJSONEditor"
-          class="w-full"
-          style="width: 95%; height: 58vh"
+          class="w-full textAreaE"
+          style="width: 95%"
         ></div>
         <textarea
           placeholder="Decrypted data"
@@ -329,7 +334,7 @@ function switchEditorType() {
 /* Desktop */
 @media only screen and (min-width: 1000px) {
   .textAreaE {
-    height: 58vh;
+    height: 55vh;
   }
 }
 </style>
