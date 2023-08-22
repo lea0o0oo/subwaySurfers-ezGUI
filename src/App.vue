@@ -4,6 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+import { inject } from "@vercel/analytics";
+
+export default {
+  mounted() {
+    inject(import.meta.env.VERCEL_ANALYTICS_ID);
+  },
+};
+</script>
+
 <template>
   <router-view></router-view>
   <footer

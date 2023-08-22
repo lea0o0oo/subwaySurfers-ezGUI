@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.4",
+    "@vercel/analytics": "^1.0.2",
     "autoprefixer": "^10.4.15",
     "crypto-js": "^4.1.1",
     "daisyui": "^3.5.1",
