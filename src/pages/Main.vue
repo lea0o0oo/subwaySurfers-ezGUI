@@ -290,8 +290,8 @@ function switchEditorType() {
       <div style="width: 100%; display: flex; justify-content: center">
         <div
           id="betterJSONEditor"
-          class="w-full"
-          style="width: 95%; height: 58vh"
+          class="w-full textAreaE"
+          style="width: 95%"
         ></div>
         <textarea
           placeholder="Decrypted data"
@@ -334,7 +334,7 @@ function switchEditorType() {
 /* Desktop */
 @media only screen and (min-width: 1000px) {
   .textAreaE {
-    height: 58vh;
+    height: 55vh;
   }
 }
 </style>
