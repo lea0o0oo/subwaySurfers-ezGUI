@@ -6,7 +6,11 @@ import "vanilla-jsoneditor/themes/jse-theme-dark.css";
 
 let editor;
 
+let editorType =
+  localStorage.getItem("editorType") == "basic" ? "basic" : "advanced";
+
 document.addEventListener("DOMContentLoaded", () => {
+  applyEditorType();
   if (
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -87,8 +91,13 @@ function decrypt() {
 }
 
 function savei() {
-  // const data = JSON.parse(document.getElementById("decryptedData-Text").value);
-  const data = editor.get().json;
+  let data;
+
+  if (editorType == "basic") {
+    data = JSON.parse(document.getElementById("decryptedData-Text").value);
+  } else {
+    data = editor.get().json;
+  }
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
@@ -146,6 +155,31 @@ function handleFileInput() {
 
   reader.readAsText(file); // read the file as a text string
 }
+
+function applyEditorType() {
+  if (editorType == "advanced") {
+    document.getElementById("prettyChBoxContainer").style.display = "none";
+    document.getElementById("decryptedData-Text").style.display = "none";
+    document.getElementById("betterJSONEditor").style.display = "block";
+    document.getElementById("typeSelecotr").value = "adv";
+  } else {
+    document.getElementById("typeSelecotr").value = "basic";
+    document.getElementById("prettyChBoxContainer").style.display = "block";
+    document.getElementById("decryptedData-Text").style.display = "block";
+    document.getElementById("betterJSONEditor").style.display = "none";
+  }
+}
+
+function switchEditorType() {
+  if (editorType == "basic") {
+    editorType = "advanced";
+    localStorage.setItem("editorType", "advanced");
+  } else {
+    editorType = "basic";
+    localStorage.setItem("editorType", "basic");
+  }
+  applyEditorType();
+}
 </script>
 
 <template>
@@ -199,20 +233,39 @@ function handleFileInput() {
           margin-top: 23px;
           margin-bottom: 7px;
           margin-left: 2.5%;
+          display: flex;
         "
       >
-        <div class="form-control">
+        <div
+          class="form-control"
+          id="prettyChBoxContainer"
+        >
           <label class="label cursor-pointer">
             <input
               type="checkbox"
               checked="checked"
               class="checkbox checkbox-secondary"
+              style="margin-right: 10px"
               id="prettyChBox"
               @change="togglePrettify()"
             />
-            <span class="label-text">Pretty JSON</span>
+            <span
+              class="label-text"
+              style="width: 100px"
+              >Pretty JSON</span
+            >
           </label>
         </div>
+        <select
+          class="select select-secondary select-sm"
+          style="width: 500px; margin-bottom: 10px"
+          id="typeSelecotr"
+          @change="switchEditorType()"
+        >
+          <option disabled>Editor type</option>
+          <option value="adv">Advanced</option>
+          <option value="basic">Basic</option>
+        </select>
       </div>
 
       <div style="width: 100%; display: flex; justify-content: center">
