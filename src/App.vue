@@ -17,39 +17,45 @@ export default {
 <template>
   <router-view></router-view>
   <footer
-    class="footer p-10 bg-neutral text-neutral-content mt-10 dark:bg-black bg-slate-300"
+    class="footer p-10 text-neutral-content mt-10 dark:bg-black bg-slate-300"
   >
     <div class="text-black dark:text-white dark:opacity-75">
-      <p>
-        Project leader
-        <a
-          class="link link-primary"
-          href="https://github.com/Noobgamer0111"
-          target="_blank"
-          >Noobgamer0111</a
-        ><br />
-        Encryption key found by
-        <a
-          class="link link-primary"
-          href="https://github.com/moddedmcplayer"
-          target="_blank"
-          >moddedmcplayer</a
-        ><br />
-        Site made by
-        <a
-          class="link link-primary"
-          href="https://github.com/Farfa7886/"
-          target="_blank"
-          >Farfa7886</a
-        ><br />
-        <a
-          id="freeDNSLink"
-          href="https://freedns.afraid.org"
-          target="_blank"
-          class="link link-secondary"
-          >Free DNS</a
-        >
-      </p>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+        <div>
+          <p>
+            Project leader
+            <a
+              class="link link-primary"
+              href="https://github.com/Noobgamer0111"
+              target="_blank"
+              >Noobgamer0111</a
+            ><br />
+            Encryption key found by
+            <a
+              class="link link-primary"
+              href="https://github.com/moddedmcplayer"
+              target="_blank"
+              >moddedmcplayer</a
+            ><br />
+            Site made by
+            <a
+              class="link link-primary"
+              href="https://github.com/Farfa7886/"
+              target="_blank"
+              >Farfa7886</a
+            ><br />
+          </p>
+        </div>
+        <div class="lg:ml-10">
+          <a
+            id="freeDNSLink"
+            href="https://freedns.afraid.org"
+            target="_blank"
+            class="link link-secondary"
+            >Free DNS</a
+          >
+        </div>
+      </div>
     </div>
     <div>
       <span class="footer-title text-black dark:text-white opacity-75"
