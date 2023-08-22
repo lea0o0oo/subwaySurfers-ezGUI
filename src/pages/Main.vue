@@ -1,6 +1,37 @@
 <script setup>
 import converter from "../helpers/converter";
 import Swal from "sweetalert2";
+import { JSONEditor } from "vanilla-jsoneditor";
+
+document.addEventListener("DOMContentLoaded", () => {
+  let content = {
+    text: undefined,
+    json: {
+      greeting: "Hello World",
+    },
+  };
+
+  const editor = new JSONEditor({
+    target: document.getElementById("betterJSONEditor"),
+    props: {
+      content,
+      onChange: (
+        updatedContent,
+        previousContent,
+        { contentErrors, patchResult }
+      ) => {
+        // content is an object { json: JSONData } | { text: string }
+        console.log("onChange", {
+          updatedContent,
+          previousContent,
+          contentErrors,
+          patchResult,
+        });
+        content = updatedContent;
+      },
+    },
+  });
+});
 
 let jsonWrap = {
   version: 3,
@@ -173,10 +204,16 @@ function handleFileInput() {
           </label>
         </div>
       </div>
+
       <div style="width: 100%; display: flex; justify-content: center">
+        <div
+          id="betterJSONEditor"
+          class="w-full"
+          style="width: 95%; height: 58vh"
+        ></div>
         <textarea
           placeholder="Decrypted data"
-          class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary"
+          class="textarea textarea-bordered textarea-lg textAreaE textarea-secondary hidden"
           style="width: 95%"
           id="decryptedData-Text"
         ></textarea>
