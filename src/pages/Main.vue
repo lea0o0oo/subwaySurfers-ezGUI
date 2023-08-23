@@ -290,7 +290,7 @@ function switchEditorType() {
       <div style="width: 100%; display: flex; justify-content: center">
         <div
           id="betterJSONEditor"
-          class="w-full textAreaE"
+          class="w-full jsonEditor"
           style="width: 95%"
         ></div>
         <textarea
@@ -329,11 +329,19 @@ function switchEditorType() {
   .textAreaE {
     height: 300px;
   }
+
+  .jsonEditor {
+    height: 65vh;
+  }
 }
 
 /* Desktop */
 @media only screen and (min-width: 1000px) {
   .textAreaE {
+    height: 55vh;
+  }
+
+  .jsonEditor {
     height: 55vh;
   }
 }
