@@ -96,7 +96,7 @@ function savei() {
   if (editorType == "basic") {
     data = JSON.parse(document.getElementById("decryptedData-Text").value);
   } else {
-    data = editor.get().json;
+    data = editor.get().json || editor.get().text;
   }
 
   try {
