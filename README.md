@@ -3,6 +3,7 @@
 
 An easy to use web-based Subway Surfers files decryptor & JSON editor.
 
+_Desktop_
 ![Desktop preview](https://cdn.discordapp.com/attachments/709358345676390471/1153745752422633522/image.png)
 
 ### Recommended IDE Setup
@@ -19,7 +20,7 @@ An easy to use web-based Subway Surfers files decryptor & JSON editor.
 - [TailwindCSS](https://tailwindcss.com/) - Styling
 - [PostCSS](https://www.npmjs.com/package/postcss)
 - [Autoprefixer](https://www.npmjs.com/package/autoprefixer)
-
+‎ 
 - [Vanilla JSON Editor](https://www.npmjs.com/package/vanilla-jsoneditor) - Advanced JSON editor
 - [CryptoJS](https://www.npmjs.com/package/crypto-js) - For encrypting / decrypting data
 
