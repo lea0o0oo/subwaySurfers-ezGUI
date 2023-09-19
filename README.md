@@ -6,7 +6,7 @@
 
 ### Credits
 
-- A **MASSIVE** thanks to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key, I simply added a web version to it.
+- A **MASSIVE** thanks to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key. I simply made a web version to it.
 - Project leader: [@Noobgamer0111](https://github.com/Noobgamer0111)
 - Component library: DaisyUI
 
