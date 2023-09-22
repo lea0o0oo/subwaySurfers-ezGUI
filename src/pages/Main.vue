@@ -72,25 +72,47 @@ document.addEventListener("DOMContentLoaded", () => {
 let currentDecryptedJSON = null;
 
 function decrypt() {
+  document.getElementById("decryptBtn").disabled = true;
+  document.getElementById("decryptBtn").innerHTML =
+    '<span class="loading loading-spinner loading-md"></span>';
   const data = document.getElementById("encryptedDataText").value;
 
   try {
-    const veryData = JSON.parse(data);
-    document.getElementById("decryptedData-Text").value =
-      converter.decryptValue(veryData.data);
-    jsonWrap = veryData;
-    currentDecryptedJSON = converter.decryptValue(veryData.data);
-    editor.set({ json: JSON.parse(converter.decryptValue(veryData.data)) });
+    try {
+      const veryData = JSON.parse(data);
+      document.getElementById("decryptedData-Text").value =
+        converter.decryptValue(veryData.data);
+      jsonWrap = veryData;
+      currentDecryptedJSON = converter.decryptValue(veryData.data);
+      editor.set({ json: JSON.parse(converter.decryptValue(veryData.data)) });
+    } catch (e) {
+      Swal.fire(
+        "Invalid data",
+        "Check your file and make sure it's valid JSON data",
+        "warning"
+      );
+    }
   } catch (e) {
-    document.getElementById("decryptedData-Text").value =
-      converter.decryptValue(data);
-    jsonWrap.data = converter.decryptValue(data);
-    currentDecryptedJSON = converter.decryptValue(data);
+    if (String(e) == 'SyntaxError: "undefined" is not valid JSON') {
+      Swal.fire(
+        "Invalid data",
+        "The decrypted data is not valid JSON",
+        "warning"
+      );
+    } else {
+      document.getElementById("decryptedData-Text").value =
+        converter.decryptValue(data);
+      jsonWrap.data = converter.decryptValue(data);
+      currentDecryptedJSON = converter.decryptValue(data);
+    }
+  } finally {
+    document.getElementById("decryptBtn").disabled = false;
+    document.getElementById("decryptBtn").innerHTML = "Decrypt";
   }
   togglePrettify(true);
 }
 
-function savei() {
+function getEncryptedData() {
   let data;
 
   if (editorType == "basic") {
@@ -102,7 +124,16 @@ function savei() {
   try {
     let jsonWrapCopy = { ...jsonWrap };
     jsonWrapCopy.data = converter.encryptValue(data);
-    navigator.clipboard.writeText(JSON.stringify(jsonWrapCopy));
+    return JSON.stringify(jsonWrapCopy);
+  } catch (e) {
+    throw e;
+  }
+}
+
+function savei() {
+  let data;
+  try {
+    navigator.clipboard.writeText(getEncryptedData());
 
     Toast.fire({
       icon: "success",
@@ -199,6 +230,39 @@ function switchEditorType() {
   }
   applyEditorType();
 }
+
+function download() {
+  let filename = window.prompt("Please enter the filename"); // Pass a second argument for default filename | window.prompt("Please enter the filename", "default")
+
+  if (filename != null) {
+    if (!filename.endsWith(".json")) {
+      filename += ".json";
+    }
+    try {
+      let fileContent = getEncryptedData();
+
+      var blob = new Blob([fileContent], { type: "text/plain" });
+      var url = URL.createObjectURL(blob);
+
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+
+      Toast.fire({
+        icon: "success",
+        title: "Success",
+      });
+    } catch (e) {
+      console.log(e);
+      Toast.fire({
+        icon: "error",
+        title: "Error while encrypting",
+      });
+    }
+  }
+}
 </script>
 
 <template>
@@ -235,6 +299,7 @@ function switchEditorType() {
           class="btn btn-primary"
           style="width: 95%"
           @click="decrypt()"
+          id="decryptBtn"
         >
           Decrypt
         </button>
@@ -312,15 +377,98 @@ function switchEditorType() {
         <button
           class="btn btn-secondary"
           style="width: 95%"
-          @click="savei()"
+          onclick="modal_act.showModal()"
         >
-          Re-Encrypt and copy
+          Re-Encrypt
         </button>
       </div>
     </div>
   </div>
 
   <!-- DIVIDER -->
+
+  <!-- Open the modal using ID.showModal() method -->
+  <dialog
+    id="modal_act"
+    class="modal modal-bottom sm:modal-middle"
+  >
+    <form
+      method="dialog"
+      class="modal-backdrop"
+    >
+      <button class="w-screen h-screen"></button>
+    </form>
+    <div class="modal-box">
+      <h3 class="font-bold text-lg mb-3">Choose action</h3>
+
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          ✕
+        </button>
+      </form>
+      <div class="w-full flex justify-center">
+        <button
+          class="btn mr-4"
+          style="height: 140px"
+          type="submit"
+          @click="savei()"
+          onclick="modal_act.close()"
+        >
+          <div>
+            <svg
+              width="100px"
+              height="100px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="mb-3"
+            >
+              <path
+                d="M8 4V16C8 17.1046 8.89543 18 10 18L18 18C19.1046 18 20 17.1046 20 16V7.24162C20 6.7034 19.7831 6.18789 19.3982 5.81161L16.0829 2.56999C15.7092 2.2046 15.2074 2 14.6847 2H10C8.89543 2 8 2.89543 8 4Z"
+                stroke="currentColor"
+                class="opacity-100"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16 18V20C16 21.1046 15.1046 22 14 22H6C4.89543 22 4 21.1046 4 20V9C4 7.89543 4.89543 7 6 7H8"
+                stroke="currentColor"
+                class="opacity-90"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Copy
+          </div>
+        </button>
+        <button
+          class="btn mb-4"
+          style="height: 140px"
+          onclick="modal_act.close()"
+          @click="download()"
+        >
+          <div>
+            <svg
+              fill="currentColor"
+              width="100px"
+              height="100px"
+              viewBox="-5 -5 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMinYMin"
+              class="jam jam-download"
+            >
+              <path
+                d="M8 6.641l1.121-1.12a1 1 0 0 1 1.415 1.413L7.707 9.763a.997.997 0 0 1-1.414 0L3.464 6.934A1 1 0 1 1 4.88 5.52L6 6.641V1a1 1 0 1 1 2 0v5.641zM1 12h12a1 1 0 0 1 0 2H1a1 1 0 0 1 0-2z"
+              />
+            </svg>
+            Save file
+          </div>
+        </button>
+      </div>
+    </div>
+  </dialog>
 </template>
 
 <style scoped>
