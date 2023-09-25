@@ -1,4 +1,3 @@
-
 # Subway surfers JSON editor
 
 An easy to use web-based Subway Surfers files decryptor & JSON editor.
@@ -10,17 +9,22 @@ _Desktop_
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
+### Api reference
+
+// TODO: put api reference stuff
+
 ### Credits
 
 - A **MASSIVE** thanks to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key. I simply made a web version on it.
 - Project leader: [@Noobgamer0111](https://github.com/Noobgamer0111)
 
 #### Libraries
+
 - [DaisyUI](https://daisyui.com/) - Components library
 - [TailwindCSS](https://tailwindcss.com/) - Styling
 - [PostCSS](https://www.npmjs.com/package/postcss)
 - [Autoprefixer](https://www.npmjs.com/package/autoprefixer)
-‎ 
+  ‎
 - [Vanilla JSON Editor](https://www.npmjs.com/package/vanilla-jsoneditor) - Advanced JSON editor
 - [CryptoJS](https://www.npmjs.com/package/crypto-js) - For encrypting / decrypting data
 

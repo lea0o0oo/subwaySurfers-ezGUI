@@ -3,6 +3,7 @@ import converter from "../helpers/converter";
 import Swal from "sweetalert2";
 import { JSONEditor } from "vanilla-jsoneditor";
 import "vanilla-jsoneditor/themes/jse-theme-dark.css";
+import LZString from "lz-string";
 
 let editor;
 
@@ -310,14 +311,15 @@ function download() {
     <div class="divider lg:hidden"></div>
 
     <!-- END DIVIDER -->
-    <div>
+    <div class="h-full">
       <div
         style="
           width: 120px;
-          margin-top: 23px;
-          margin-bottom: 7px;
+          margin-top: 30px;
+          margin-bottom: 0px;
           margin-left: 2.5%;
           display: flex;
+          align-items: center;
         "
       >
         <div
