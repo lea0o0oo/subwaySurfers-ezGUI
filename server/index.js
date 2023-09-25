@@ -67,3 +67,5 @@ connectToDb();
 process.on("uncaughtException", function (err) {
   console.error(err);
 });
+
+module.exports = app;
