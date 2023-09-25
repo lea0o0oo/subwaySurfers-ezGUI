@@ -11,7 +11,7 @@ _Desktop_
 
 ### Api reference
 
-// TODO: put api reference stuff
+[See api docs](https://github.com/Farfa7886/subwaySurfers-ezGUI/blob/main/server/README.md)
 
 ### Credits
 
