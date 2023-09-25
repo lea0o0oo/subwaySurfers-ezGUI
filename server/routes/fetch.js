@@ -9,6 +9,8 @@ router.get("/fetch/:code", async (req, res) => {
     const codeData = await Codes.findOne({ code: req.params.code });
     res.status(200).json({
       encrypted: codeData.encryptedData,
+      decrypted: codeData.decryptedData,
+      created: codeData.createdAt,
     });
   } catch (e) {
     res.status(404).json({

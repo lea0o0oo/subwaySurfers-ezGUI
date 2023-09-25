@@ -9,6 +9,7 @@
 | Parameter   | Type     | Description                |
 | :---------- | :------- | :------------------------- |
 | `encrypted` | `string` | **Required**. Data to save |
+| `decrypted` | `string` | **Required**. Data to save |
 
 Example response (JSON)
 
@@ -30,6 +31,7 @@ Example response (JSON)
 
 ```json
 {
-  "encrypted": "enwifbn!34iubrbfbjBUIDBYIOGFBVI+Ubdiofe43gf891lvblo"
+  "encrypted": "enwifbn!34iubrbfbjBUIDBYIOGFBVI+Ubdiofe43gf891lvblo",
+  "decrypted": "{\"data\": \"data\"}"
 }
 ```

@@ -8,6 +8,11 @@ const codeSchema = new mongoose.Schema(
     },
     encryptedData: {
       type: String,
+      required: true,
+    },
+    decryptedData: {
+      type: String,
+      required: true,
     },
     createdAt: {
       type: Date,
