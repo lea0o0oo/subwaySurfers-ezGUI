@@ -3,8 +3,12 @@ import converter from "../helpers/converter";
 import Swal from "sweetalert2";
 import { JSONEditor } from "vanilla-jsoneditor";
 import "vanilla-jsoneditor/themes/jse-theme-dark.css";
+import ShareManager from "../helpers/sharemanager";
+import { useRoute } from "vue-router";
 
 let editor;
+
+const route = useRoute();
 
 let editorType =
   localStorage.getItem("editorType") == "basic" ? "basic" : "advanced";
@@ -84,7 +88,8 @@ function decrypt() {
         converter.decryptValue(veryData.data);
       jsonWrap = veryData;
       currentDecryptedJSON = converter.decryptValue(veryData.data);
-      editor.set({ json: JSON.parse(converter.decryptValue(veryData.data)) });
+      let finalData = JSON.parse(converter.decryptValue(veryData.data));
+      editor.set({ json: finalData });
     } catch (e) {
       Swal.fire(
         "Invalid data",
@@ -263,6 +268,81 @@ function download() {
     }
   }
 }
+
+async function generateURL() {
+  document.getElementById("modal_loading").checked = true;
+  let encryptedData = document.getElementById("encryptedDataText").value;
+  let decryptedData;
+
+  if (editorType == "basic") {
+    decryptedData = JSON.parse(
+      document.getElementById("decryptedData-Text").value
+    );
+  } else {
+    decryptedData = editor.get().json || editor.get().text;
+  }
+  if (encryptedData == "") {
+    encryptedData = "{}";
+  }
+  try {
+    const code = await ShareManager.saveCode(
+      encryptedData,
+      JSON.stringify(decryptedData)
+    );
+    document.getElementById("kbd-code").innerText = code;
+    document.getElementById(
+      "kbd-url"
+    ).innerText = `${window.location.origin}?c=${code}`;
+
+    modal_share.showModal();
+  } catch (e) {
+    Swal.fire("Error", e.response.data.error, "error");
+  } finally {
+    document.getElementById("modal_loading").checked = false;
+  }
+}
+
+function copyShareURl() {
+  navigator.clipboard.writeText(document.getElementById("kbd-url").innerText);
+  Toast.fire({
+    icon: "success",
+    title: "Success",
+  });
+}
+
+// load
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (route.query.c) {
+    document.getElementById("modal_loading").checked = true;
+    try {
+      const data = await ShareManager.getData(route.query.c);
+      console.log(data);
+      if (data.encrypted != "{}") {
+        document.getElementById("encryptedDataText").value = data.encrypted;
+      }
+
+      try {
+        const veryData = data.decrypted;
+        document.getElementById("decryptedData-Text").value = veryData;
+        jsonWrap = veryData;
+        currentDecryptedJSON = veryData;
+        let finalData = JSON.parse(veryData);
+        editor.set({ json: finalData });
+      } catch (e) {
+        Swal.fire(
+          "Invalid data",
+          "Check your file and make sure it's valid JSON data",
+          "warning"
+        );
+      }
+    } catch (e) {
+      Swal.fire("Error", e.response.data.error, "error");
+    } finally {
+      document.getElementById("modal_loading").checked = false;
+    }
+  }
+});
 </script>
 
 <template>
@@ -310,14 +390,15 @@ function download() {
     <div class="divider lg:hidden"></div>
 
     <!-- END DIVIDER -->
-    <div>
+    <div class="h-full">
       <div
         style="
           width: 120px;
-          margin-top: 23px;
-          margin-bottom: 7px;
+          margin-top: 30px;
+          margin-bottom: 0px;
           margin-left: 2.5%;
           display: flex;
+          align-items: center;
         "
       >
         <div
@@ -379,7 +460,7 @@ function download() {
           style="width: 95%"
           onclick="modal_act.showModal()"
         >
-          Re-Encrypt
+          Export
         </button>
       </div>
     </div>
@@ -399,72 +480,168 @@ function download() {
       <button class="w-screen h-screen"></button>
     </form>
     <div class="modal-box">
-      <h3 class="font-bold text-lg mb-3">Choose action</h3>
-
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
           ✕
         </button>
       </form>
+      <div class="w-full flex justify-center mb-4 mt-4">
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+          <div class="mb-4 lg:mb-0 md:mb-4">
+            <button
+              class="btn mr-4"
+              style="height: 140px"
+              type="submit"
+              @click="savei()"
+              onclick="modal_act.close()"
+            >
+              <div>
+                <svg
+                  width="100px"
+                  height="90px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mb-3"
+                >
+                  <path
+                    d="M8 4V16C8 17.1046 8.89543 18 10 18L18 18C19.1046 18 20 17.1046 20 16V7.24162C20 6.7034 19.7831 6.18789 19.3982 5.81161L16.0829 2.56999C15.7092 2.2046 15.2074 2 14.6847 2H10C8.89543 2 8 2.89543 8 4Z"
+                    stroke="currentColor"
+                    class="opacity-100"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M16 18V20C16 21.1046 15.1046 22 14 22H6C4.89543 22 4 21.1046 4 20V9C4 7.89543 4.89543 7 6 7H8"
+                    stroke="currentColor"
+                    class="opacity-90"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Copy
+              </div>
+            </button>
+          </div>
+          <div>
+            <button
+              class="btn mr-4"
+              style="height: 140px"
+              onclick="modal_act.close()"
+              @click="download()"
+            >
+              <div>
+                <svg
+                  fill="currentColor"
+                  width="100px"
+                  height="100px"
+                  viewBox="-5 -5 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMinYMin"
+                  class="jam jam-download"
+                >
+                  <path
+                    d="M8 6.641l1.121-1.12a1 1 0 0 1 1.415 1.413L7.707 9.763a.997.997 0 0 1-1.414 0L3.464 6.934A1 1 0 1 1 4.88 5.52L6 6.641V1a1 1 0 1 1 2 0v5.641zM1 12h12a1 1 0 0 1 0 2H1a1 1 0 0 1 0-2z"
+                  />
+                </svg>
+                Save file
+              </div>
+            </button>
+          </div>
+          <div>
+            <button
+              class="btn"
+              style="height: 140px"
+              onclick="modal_act.close()"
+              @click="generateURL()"
+            >
+              <div>
+                <svg
+                  class="mb-5"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  height="80px"
+                  width="100px"
+                  viewBox="0 0 512 512"
+                  xml:space="preserve"
+                  stroke="currentColor"
+                  fill="currentColor"
+                >
+                  <g stroke="currentColor">
+                    <g stroke="currentColor">
+                      <path
+                        stroke="currentColor"
+                        d="M512,241.7L273.643,3.343v156.152c-71.41,3.744-138.015,33.337-188.958,84.28C30.075,298.384,0,370.991,0,448.222v60.436
+			l29.069-52.985c45.354-82.671,132.173-134.027,226.573-134.027c5.986,0,12.004,0.212,18.001,0.632v157.779L512,241.7z
+			 M255.642,290.666c-84.543,0-163.661,36.792-217.939,98.885c26.634-114.177,129.256-199.483,251.429-199.483h15.489V78.131
+			l163.568,163.568L304.621,405.267V294.531l-13.585-1.683C279.347,291.401,267.439,290.666,255.642,290.666z"
+                      />
+                    </g>
+                  </g>
+                </svg>
+
+                Share
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <input
+    type="checkbox"
+    id="modal_loading"
+    class="modal-toggle"
+  />
+  <div class="modal">
+    <div class="modal-box">
       <div class="w-full flex justify-center">
-        <button
-          class="btn mr-4"
-          style="height: 140px"
-          type="submit"
-          @click="savei()"
-          onclick="modal_act.close()"
+        <p class="py-4">
+          <span class="loading loading-spinner loading-lg"></span>
+        </p>
+      </div>
+      <div class="w-full flex justify-center">
+        <p class="py-4">Loading</p>
+      </div>
+    </div>
+  </div>
+
+  <dialog
+    id="modal_share"
+    class="modal"
+  >
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Success!</h3>
+      <p class="mt-4">
+        Your code:
+        <kbd
+          class="kbd kbd-sm"
+          id="kbd-code"
+          >--</kbd
         >
-          <div>
-            <svg
-              width="100px"
-              height="100px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="mb-3"
-            >
-              <path
-                d="M8 4V16C8 17.1046 8.89543 18 10 18L18 18C19.1046 18 20 17.1046 20 16V7.24162C20 6.7034 19.7831 6.18789 19.3982 5.81161L16.0829 2.56999C15.7092 2.2046 15.2074 2 14.6847 2H10C8.89543 2 8 2.89543 8 4Z"
-                stroke="currentColor"
-                class="opacity-100"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M16 18V20C16 21.1046 15.1046 22 14 22H6C4.89543 22 4 21.1046 4 20V9C4 7.89543 4.89543 7 6 7H8"
-                stroke="currentColor"
-                class="opacity-90"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Copy
-          </div>
-        </button>
-        <button
-          class="btn mb-4"
-          style="height: 140px"
-          onclick="modal_act.close()"
-          @click="download()"
+      </p>
+      <p class="">
+        Your share url:
+        <kbd
+          class="kbd kbd-sm"
+          id="kbd-url"
+          >--</kbd
         >
-          <div>
-            <svg
-              fill="currentColor"
-              width="100px"
-              height="100px"
-              viewBox="-5 -5 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMinYMin"
-              class="jam jam-download"
-            >
-              <path
-                d="M8 6.641l1.121-1.12a1 1 0 0 1 1.415 1.413L7.707 9.763a.997.997 0 0 1-1.414 0L3.464 6.934A1 1 0 1 1 4.88 5.52L6 6.641V1a1 1 0 1 1 2 0v5.641zM1 12h12a1 1 0 0 1 0 2H1a1 1 0 0 1 0-2z"
-              />
-            </svg>
-            Save file
-          </div>
+      </p>
+      <div class="modal-action">
+        <form method="dialog">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Close</button>
+        </form>
+        <button
+          class="btn btn-secondary"
+          @click="copyShareURl()"
+        >
+          Copy url
         </button>
       </div>
     </div>

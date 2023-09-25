@@ -1,0 +1,31 @@
+{
+  "name": "subwaysurfers-ezgui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/icon.png"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "@vercel/analytics": "^1.0.2",
+    "autoprefixer": "^10.4.15",
+    "axios": "^1.5.0",
+    "crypto-js": "^4.1.1",
+    "daisyui": "^3.5.1",
+    "postcss": "^8.4.28",
+    "sweetalert2": "^11.7.27",
+    "tailwindcss": "^3.3.3",
+    "vanilla-jsoneditor": "^0.18.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.5",
+    "vite-plugin-pwa": "^0.16.4"
+  }
+}
