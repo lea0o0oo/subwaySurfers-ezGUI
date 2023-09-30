@@ -128,6 +128,7 @@ function getEncryptedData() {
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
+    //console.log(jsonWrap);
     jsonWrapCopy.data = converter.encryptValue(data);
     return JSON.stringify(jsonWrapCopy);
   } catch (e) {
@@ -325,7 +326,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         const veryData = data.decrypted;
         document.getElementById("decryptedData-Text").value = veryData;
-        jsonWrap = veryData;
         currentDecryptedJSON = veryData;
         let finalData = JSON.parse(veryData);
         editor.set({ json: finalData });
@@ -401,10 +401,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           align-items: center;
         "
       >
-        <div
-          class="form-control"
-          id="prettyChBoxContainer"
-        >
+        <div class="form-control" id="prettyChBoxContainer">
           <label class="label cursor-pointer">
             <input
               type="checkbox"
@@ -414,11 +411,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               id="prettyChBox"
               @change="togglePrettify()"
             />
-            <span
-              class="label-text"
-              style="width: 100px"
-              >Pretty JSON</span
-            >
+            <span class="label-text" style="width: 100px">Pretty JSON</span>
           </label>
         </div>
         <select
@@ -469,14 +462,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   <!-- DIVIDER -->
 
   <!-- Open the modal using ID.showModal() method -->
-  <dialog
-    id="modal_act"
-    class="modal modal-bottom sm:modal-middle"
-  >
-    <form
-      method="dialog"
-      class="modal-backdrop"
-    >
+  <dialog id="modal_act" class="modal modal-bottom sm:modal-middle">
+    <form method="dialog" class="modal-backdrop">
       <button class="w-screen h-screen"></button>
     </form>
     <div class="modal-box">
@@ -592,11 +579,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
   </dialog>
 
-  <input
-    type="checkbox"
-    id="modal_loading"
-    class="modal-toggle"
-  />
+  <input type="checkbox" id="modal_loading" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box">
       <div class="w-full flex justify-center">
@@ -610,37 +593,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
   </div>
 
-  <dialog
-    id="modal_share"
-    class="modal"
-  >
+  <dialog id="modal_share" class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-lg">Success!</h3>
       <p class="mt-4">
         Your code:
-        <kbd
-          class="kbd kbd-sm"
-          id="kbd-code"
-          >--</kbd
-        >
+        <kbd class="kbd kbd-sm" id="kbd-code">--</kbd>
       </p>
       <p class="">
         Your share url:
-        <kbd
-          class="kbd kbd-sm"
-          id="kbd-url"
-          >--</kbd
-        >
+        <kbd class="kbd kbd-sm" id="kbd-url">--</kbd>
       </p>
       <div class="modal-action">
         <form method="dialog">
           <!-- if there is a button in form, it will close the modal -->
           <button class="btn">Close</button>
         </form>
-        <button
-          class="btn btn-secondary"
-          @click="copyShareURl()"
-        >
+        <button class="btn btn-secondary" @click="copyShareURl()">
           Copy url
         </button>
       </div>
