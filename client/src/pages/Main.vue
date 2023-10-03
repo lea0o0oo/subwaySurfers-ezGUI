@@ -293,7 +293,7 @@ async function generateURL() {
     document.getElementById("kbd-code").innerText = code;
     document.getElementById(
       "kbd-url"
-    ).innerText = `${window.location.origin}?c=${code}`;
+    ).innerText = `${window.location.origin}/?c=${code}`;
 
     modal_share.showModal();
   } catch (e) {
