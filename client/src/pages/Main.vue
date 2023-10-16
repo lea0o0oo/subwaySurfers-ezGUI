@@ -123,7 +123,7 @@ function getEncryptedData() {
   if (editorType == "basic") {
     data = JSON.parse(document.getElementById("decryptedData-Text").value);
   } else {
-    data = editor.get().json || editor.get().text;
+    data = editor.get().json || JSON.parse(editor.get().text);
   }
 
   try {
@@ -280,7 +280,7 @@ async function generateURL() {
       document.getElementById("decryptedData-Text").value
     );
   } else {
-    decryptedData = editor.get().json || editor.get().text;
+    decryptedData = editor.get().json || JSON.parse(editor.get().text);
   }
   if (encryptedData == "") {
     encryptedData = "{}";
