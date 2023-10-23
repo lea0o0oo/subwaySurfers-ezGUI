@@ -15,8 +15,14 @@ _Desktop_
 
 ### Credits
 
-- A **MASSIVE** thanks to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key. I simply made a web version on it.
-- Project leader: [@Noobgamer0111](https://github.com/Noobgamer0111)
+- A huge appreciation goes out to [@moddedmcplayer](https://github.com/moddedmcplayer) for finding the decryption key. I subsequently created a web version of it.
+- Project leader [@Noobgamer0111](https://github.com/Noobgamer0111)
+
+### Bug reporters
+People that found bugs and reported them
+
+- [matrigi](https://www.tiktok.com/@funtep)
+- [HolyPizza](https://github.com/HolyPizzza)
 
 #### Libraries
 
