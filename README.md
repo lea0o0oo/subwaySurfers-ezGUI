@@ -19,10 +19,11 @@ _Desktop_
 - Project leader [@Noobgamer0111](https://github.com/Noobgamer0111)
 
 ### Bug reporters
+
 People that found bugs and reported them
 
 - [matrigi](https://www.tiktok.com/@funtep)
-- [HolyPizza](https://github.com/HolyPizzza)
+- SomethingGreen
 
 #### Libraries
 

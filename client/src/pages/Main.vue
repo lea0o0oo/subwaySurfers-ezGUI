@@ -628,7 +628,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     height: 65vh;
   }
 }
-
 /* Desktop */
 @media only screen and (min-width: 1000px) {
   .textAreaE {
