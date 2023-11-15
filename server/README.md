@@ -28,7 +28,7 @@ Body
 | Parameter | Type | Description |
 | :---------- | :------- | :------------------------- |
 | `text` | `string` | **Required**. The data that you want to decrypt. |
-| `parsed` | `boolean` | **Optional**. If true, the server will automatically parse the result into a json object, otherwise, it will return a un-parse string|
+| `parsed` | `boolean` | **Optional**. If true, the server will automatically parse the result into a json object, otherwise, it will return a un-parsed string|
 
 **Example**
 
@@ -57,7 +57,7 @@ Response
 ```http
   POST /encrypt
 
-  POST POST https://ssd-server.vercel.app/decrypt/encrypt
+  POST https://ssd-server.vercel.app/encrypt
 ```
 
 Body
