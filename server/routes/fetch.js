@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Codes = require("../schemas/codes");
-const { generateCode } = require("../helpers/generateCode");
-const config = require("../config");
 
 router.get("/fetch/:code", async (req, res) => {
   try {

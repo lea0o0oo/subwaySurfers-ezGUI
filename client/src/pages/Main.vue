@@ -36,12 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
         { contentErrors, patchResult }
       ) => {
         // content is an object { json: JSONData } | { text: string }
-        console.log("onChange", {
-          updatedContent,
-          previousContent,
-          contentErrors,
-          patchResult,
-        });
+        // console.log("onChange", {
+        //   updatedContent,
+        //   previousContent,
+        //   contentErrors,
+        //   patchResult,
+        // });
         content = updatedContent;
       },
     },
@@ -261,7 +261,7 @@ function download() {
         title: "Success",
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       Toast.fire({
         icon: "error",
         title: "Error while encrypting",
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("modal_loading").checked = true;
     try {
       const data = await ShareManager.getData(route.query.c);
-      console.log(data);
+      //console.log(data);
       if (data.encrypted != "{}") {
         document.getElementById("encryptedDataText").value = data.encrypted;
       }
@@ -458,6 +458,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
     </div>
   </div>
+
+  <div class="divider"></div>
+  <h3 class="text-center w-full text-3xl font-bold">API</h3>
+  <p class="w-full text-center">
+    You can encrypt / decrypt data by sending a POST requests to a server.
+    <br />
+    Check the
+    <a
+      class="link link-info"
+      href="https://github.com/Farfa7886/subwaySurfers-ezGUI/tree/main/server#api-reference"
+      >documentation</a
+    >
+    to learn more
+  </p>
 
   <!-- DIVIDER -->
 
