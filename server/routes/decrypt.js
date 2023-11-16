@@ -19,8 +19,8 @@ router.post("/decrypt", async (req, res) => {
     });
   } catch (ex) {
     res.status(500).json({
-      success: true,
-      result: ex.message,
+      success: false,
+      error: ex.message,
     });
   }
 });
