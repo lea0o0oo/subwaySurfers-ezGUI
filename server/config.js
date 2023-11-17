@@ -23,8 +23,8 @@ module.exports = {
   },
   rateLimit: {
     // Rate limiting settings
-    windowMs: 120 * 60 * 1000, // 120 minutes
-    limit: 50, // Limit each IP to 100 requests per `window` (here, per 120 minutes).
+    windowMs: 60 * 60 * 1000, // 60 minutes
+    limit: 200, // Limit each IP to 200 requests per `window` (here, per 60 minutes).
     standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   },
