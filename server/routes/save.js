@@ -3,8 +3,9 @@ const router = express.Router();
 const Codes = require("../schemas/codes");
 const { generateCode } = require("../helpers/generateCode");
 const config = require("../config");
+const { rateLimit } = require("express-rate-limit");
 
-router.post("/save", async (req, res) => {
+router.post("/save", rateLimit(config.rateLimit), async (req, res) => {
   if (req.body && req.body.encrypted && req.body.encrypted) {
     const generatedCode = generateCode(config.codes["length"]);
     try {

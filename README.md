@@ -11,6 +11,8 @@ _Desktop_
 
 ### Api reference
 
+You can easly encrypt / decrypt data by sending a POST request to a server, check the documentation for more information.
+
 [See api docs](https://github.com/Farfa7886/subwaySurfers-ezGUI/blob/main/server/README.md)
 
 ### Credits

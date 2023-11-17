@@ -3,9 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const compression = require("compression");
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const { rateLimit } = require("express-rate-limit");
 
 const uri =
   config.database.useConnectionString == true
@@ -14,7 +12,6 @@ const uri =
 
 const app = express();
 app.use(express.json({ limit: config.api.maxPayload * 1000000 }));
-app.use(rateLimit(config.rateLimit));
 
 app.use(
   cors({
