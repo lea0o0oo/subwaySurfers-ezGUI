@@ -17,7 +17,11 @@ function decryptValue(text) {
     decrypted = decrypted.toString(CryptoJS.enc.Utf8);
     return decrypted;
   } catch (ex) {
-    console.error(ex.message);
+    if (
+      ex.message != "Cannot read properties of undefined (reading 'ciphertext')"
+    ) {
+      console.error(ex.message);
+    }
   }
 }
 

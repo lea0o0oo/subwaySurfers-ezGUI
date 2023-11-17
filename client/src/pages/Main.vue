@@ -83,14 +83,24 @@ function decrypt() {
 
   try {
     try {
-      const veryData = JSON.parse(data);
+      let veryData;
+      if (data.startsWith("{")) {
+        veryData = JSON.parse(data).data;
+      } else {
+        veryData = data;
+      }
+
       document.getElementById("decryptedData-Text").value =
         converter.decryptValue(veryData.data);
-      jsonWrap = veryData;
-      currentDecryptedJSON = converter.decryptValue(veryData.data);
-      let finalData = JSON.parse(converter.decryptValue(veryData.data));
+      jsonWrap.data = veryData;
+      currentDecryptedJSON = converter.decryptValue(veryData);
+      //console.log(currentDecryptedJSON);
+      let finalData = JSON.parse(currentDecryptedJSON);
       editor.set({ json: finalData });
+      document.getElementById("decryptedData-Text").value =
+        JSON.stringify(finalData);
     } catch (e) {
+      console.error(e);
       Swal.fire(
         "Invalid data",
         "Check your file and make sure it's valid JSON data",

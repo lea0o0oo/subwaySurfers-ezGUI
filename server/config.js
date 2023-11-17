@@ -16,8 +16,16 @@ module.exports = {
   api: {
     port: 3002, // The port whene the api will be hosted
     allowedOrigins: "*", // Cors setting. Keep it like this
+    maxPayload: 0.1, // in mb
   },
   codes: {
     length: 6, // The length of the generated code. Example: 7FN4OP
+  },
+  rateLimit: {
+    // Rate limiting settings
+    windowMs: 120 * 60 * 1000, // 120 minutes
+    limit: 50, // Limit each IP to 100 requests per `window` (here, per 120 minutes).
+    standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   },
 };

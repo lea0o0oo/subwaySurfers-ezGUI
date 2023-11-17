@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const { rateLimit } = require("express-rate-limit");
 
 const uri =
   config.database.useConnectionString == true
@@ -12,10 +13,9 @@ const uri =
     : `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.host}/?retryWrites=true&w=majority`;
 
 const app = express();
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+app.use(express.json({ limit: config.api.maxPayload * 1000000 }));
+app.use(rateLimit(config.rateLimit));
 
-app.use(jsonParser);
 app.use(
   cors({
     origin: config.api.allowedOrigins,
@@ -28,7 +28,6 @@ app.use(morgan("combined"));
 
 const connectionOptions = {
   dbName: config.database.dbName,
-  useUnifiedTopology: true,
 };
 
 app.all("/", (req, res) => {
