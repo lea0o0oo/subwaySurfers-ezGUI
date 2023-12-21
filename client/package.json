@@ -17,7 +17,7 @@
     "crypto-js": "^4.2.0",
     "daisyui": "^4.0.7",
     "postcss": "^8.4.31",
-    "sweetalert2": "^11.10.0",
+    "sweetalert2": "^11.10.1",
     "tailwindcss": "^3.3.5",
     "vanilla-jsoneditor": "^0.18.13",
     "vue": "^3.3.8",
