@@ -16,7 +16,7 @@ module.exports = {
   api: {
     port: 3002, // The port whene the api will be hosted
     allowedOrigins: "*", // Cors setting. Keep it like this
-    maxPayload: 0.1, // in mb
+    maxPayload: 0.05, // in mb
   },
   codes: {
     length: 6, // The length of the generated code. Example: 7FN4OP
