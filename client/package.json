@@ -13,7 +13,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@vercel/analytics": "^1.1.1",
     "autoprefixer": "^10.4.16",
-    "axios": "^1.6.2",
+    "axios": "^1.6.3",
     "crypto-js": "^4.2.0",
     "daisyui": "^4.0.7",
     "postcss": "^8.4.31",
