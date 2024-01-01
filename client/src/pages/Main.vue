@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let jsonWrap = {
-  version: 3,
+  version: 4,
   data: "",
 };
 
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let currentDecryptedJSON = null;
 
-function decrypt() {
+function decrypt(noWarnings) {
   document.getElementById("decryptBtn").disabled = true;
   document.getElementById("decryptBtn").innerHTML =
     '<span class="loading loading-spinner loading-md"></span>';
@@ -101,19 +101,21 @@ function decrypt() {
         JSON.stringify(finalData);
     } catch (e) {
       console.error(e);
-      Swal.fire(
-        "Invalid data",
-        "Check your file and make sure it's valid JSON data",
-        "warning"
-      );
+      if (!noWarnings)
+        Swal.fire(
+          "Invalid data",
+          "Check your file and make sure it's valid JSON data",
+          "warning"
+        );
     }
   } catch (e) {
     if (String(e) == 'SyntaxError: "undefined" is not valid JSON') {
-      Swal.fire(
-        "Invalid data",
-        "The decrypted data is not valid JSON",
-        "warning"
-      );
+      if (!noWarnings)
+        Swal.fire(
+          "Invalid data",
+          "The decrypted data is not valid JSON",
+          "warning"
+        );
     } else {
       document.getElementById("decryptedData-Text").value =
         converter.decryptValue(data);
@@ -138,6 +140,9 @@ function getEncryptedData() {
 
   try {
     let jsonWrapCopy = { ...jsonWrap };
+    jsonWrapCopy.version = JSON.parse(
+      document.getElementById("encryptedDataText").value
+    ).version;
     //console.log(jsonWrap);
     jsonWrapCopy.data = converter.encryptValue(data);
     return JSON.stringify(jsonWrapCopy);
@@ -160,6 +165,7 @@ function savei() {
       icon: "error",
       title: "Error while encrypting",
     });
+    console.error(e);
   }
 }
 
@@ -375,6 +381,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           class="textarea textarea-bordered textarea-lg mt-2 textAreaE textarea-primary"
           style="width: 95%"
           id="encryptedDataText"
+          @change="decrypt(true)"
         ></textarea>
       </div>
       <div
