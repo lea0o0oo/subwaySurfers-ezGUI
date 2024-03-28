@@ -40,9 +40,9 @@ export default {
             Site made by
             <a
               class="link link-primary"
-              href="https://github.com/Farfa7886/"
+              href="https://github.com/lea0o0oo"
               target="_blank"
-              >Farfa7886</a
+              >Leo</a
             ><br />
           </p>
         </div>
@@ -63,7 +63,7 @@ export default {
       >
       <div class="grid grid-flow-col gap-4">
         <a
-          href="https://github.com/Farfa7886/subwaySurfers-ezGUI"
+          href="https://github.com/lea0o0oo/subwaySurfers-ezGUI"
           target="_blank"
           aria-label="Github REPO"
           ><svg
