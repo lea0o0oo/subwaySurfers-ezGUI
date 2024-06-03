@@ -3,7 +3,7 @@
 An easy to use web-based Subway Surfers files decryptor & JSON editor.
 
 _Desktop_
-![Desktop preview](https://cdn.discordapp.com/attachments/709358345676390471/1153745752422633522/image.png)
+![Desktop preview](https://github.com/lea0o0oo/subwaySurfers-ezGUI/assets/50551069/38d8daf4-7f1c-48fa-bb25-55d8f81d0ce7)
 
 ### Recommended IDE Setup
 
